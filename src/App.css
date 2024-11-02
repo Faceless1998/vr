@@ -1,0 +1,22 @@
+
+.backButton {
+    position: fixed; /* Fixes the button to a specific position */
+    bottom: 20px; /* Distance from the bottom of the viewport */
+    right: 20px; /* Distance from the left of the viewport */
+    padding: 10px 20px; /* Padding for the button */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+    font-size: 20px; /* Font size */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  
+  .backButton:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  

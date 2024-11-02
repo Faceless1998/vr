@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./Home.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 
 export const Home = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
   return (
     <div className={styles.main}>
       <div className={styles.title}>Vr Discovery</div>
@@ -19,6 +21,7 @@ export const Home = () => {
           </div>
         </Link>
       </div>
+      
     </div>
   );
 };
