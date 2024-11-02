@@ -1,0 +1,123 @@
+body {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.control {
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background for the entire section */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
+
+.reservationList {
+  list-style: none;
+  padding: 0;
+}
+
+.reservationItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Use space-between for equal distribution */
+  align-items: center;
+  margin: 10px 0; /* Margin for spacing between items */
+  padding: 10px; /* Padding for inner spacing */
+  border-radius: 5px;
+  border: 1px solid #ddd; /* Light gray border */
+  width: 500px; /* Fixed width for uniformity */
+  background-color: #fff; /* White background for each reservation */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.reservationName {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.reservationInfo {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.statusContainer {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+.goodButton,
+.badButton {
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s;
+}
+
+.goodButton {
+  background-color: #4caf50; /* Green for good */
+  color: white;
+}
+
+.goodButton:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.badButton {
+  background-color: #f44336; /* Red for bad */
+  color: white;
+}
+
+.badButton:hover {
+  background-color: #da190b; /* Darker red on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .reservationItem {
+    flex-direction: column; /* Stack items on small screens */
+    width: auto; /* Allow auto width on smaller screens */
+  }
+  .statusContainer {
+    justify-content: center; /* Center buttons on small screens */
+  }
+}
+
+.good {
+  background-color: green;
+  color: white;
+}
+
+.bad {
+  background-color: red;
+  color: white;
+}
+
+.statusContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.goodButton,
+.badButton {
+  cursor: pointer;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.goodButton:hover {
+  background-color: darkgreen;
+}
+
+.badButton:hover {
+  background-color: darkred;
+}

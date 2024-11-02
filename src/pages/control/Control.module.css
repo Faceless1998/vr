@@ -1,0 +1,149 @@
+/* Control.module.css */
+
+.control {
+    padding: 20px;
+    background-color: #e8f1f8; /* Light blue background */
+    border-radius: 12px;
+      width: 700px;
+    margin: 20px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2d3e50; /* Darker text color */
+  }
+  
+  h2 {
+    color: #1b385d; /* Dark navy */
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    background-color: #ffffff;
+    padding: 18px;
+    border: 1px solid #d0e1f5;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s;
+  }
+  
+  li:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reservationInfo {
+    color: #4a6572; /* Medium grey-blue */
+    font-size: 1em;
+    line-height: 1.5em;
+    margin-top: 8px;
+  }
+  
+  button {
+    padding: 10px 14px;
+    font-size: 0.9em;
+    border-radius: 6px;
+    margin-top: 6px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s, transform 0.1s;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+  }
+  
+  .cancelButton {
+    background-color: #f76c6c; /* Soft red */
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #f55454; /* Slightly darker red */
+  }
+  
+  .doneButton {
+    background-color: #3cb371; /* Soft green */
+    color: white;
+  }
+  
+  .doneButton:hover {
+    background-color: #2e8b57; /* Slightly darker green */
+  }
+  
+  button:disabled {
+    background-color: #b0b8c3;
+    cursor: not-allowed;
+  }
+  
+  .cancelledText {
+    color: #d9534f; /* Deep red */
+    font-weight: 600;
+  }
+  
+  .completedText {
+    color: #5cb85c; /* Bright green */
+    font-weight: 600;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 600px) {
+    .control {
+      padding: 15px;
+    }
+    h2 {
+      font-size: 1.8em;
+    }
+  }
+  
+  .reviewContainer {
+    margin-top: 12px;
+}
+
+.reviewInput {
+    width: 100%;
+    height: 60px;
+    border: 1px solid #d0e1f5;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.9em;
+    transition: border-color 0.3s;
+}
+
+.reviewInput:focus {
+    border-color: #5cb85c; /* Green border on focus */
+    outline: none; /* Remove default outline */
+}
+
+.updateButton {
+  background-color: #007bff; /* Bootstrap blue */
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-top: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.updateButton:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+
+
+.gamediv{
+  display: inline;
+  margin-left: 10px;
+}
+
+.gamediv::after{
+  content: ", ";
+}

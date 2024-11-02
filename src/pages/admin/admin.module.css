@@ -1,0 +1,53 @@
+/* Home.module.css */
+:global(*) {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+  }
+  
+  .main {
+    background-color: #b882ef;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .title {
+    font-family: "Bebas Neue", sans-serif;
+    text-align: center;
+    font-size: 100px;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .container {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .cube1,
+  .cube2 {
+    width: 400px;
+    height: 200px;
+    font-family: "Bebas Neue", sans-serif;
+    background-color: aliceblue;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 20px;
+    color: #b882ef;
+    transition: color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .cube1:hover,
+  .cube2:hover {
+    color: #7c25d3;
+    box-shadow: 0 0 10px #7c25d3;
+  }
+  
