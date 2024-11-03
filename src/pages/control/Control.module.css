@@ -95,7 +95,7 @@
   }
   
   /* Mobile adjustments */
-  @media (max-width: 800px) {
+  @media (max-width: 1200px) {
     .control {
       max-width: 700px;
       padding: 15px;
