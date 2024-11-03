@@ -65,8 +65,7 @@ export const Users = () => {
     const fetchReservations = async () => {
       setLoading(true);
       try {
-        const response = await fetch("https://vr-back-efus.vercel.app
-/api/reservations");
+        const response = await fetch("https://vr-back-efus.vercel.app/api/reservations");
         const data = await response.json();
         setExistingReservations(data);
       } catch (error) {
@@ -79,8 +78,7 @@ export const Users = () => {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        const response = await fetch("https://vr-back-efus.vercel.app
-/api/categories");
+        const response = await fetch("https://vr-back-efus.vercel.app/api/categories");
         const data = await response.json();
         if (Array.isArray(data)) {
           const allGamesCategory = { _id: "all", name: "All Games" };
@@ -99,8 +97,7 @@ export const Users = () => {
     const fetchGames = async () => {
       setLoading(true);
       try {
-        const response = await fetch("https://vr-back-efus.vercel.app
-/api/games");
+        const response = await fetch("https://vr-back-efus.vercel.app/api/games");
         const data = await response.json();
         if (Array.isArray(data)) {
           setGameOptions(data);

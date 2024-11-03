@@ -7,8 +7,7 @@ export const Customer = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const response = await fetch("https://vr-back-efus.vercel.app
-/api/reservations");
+        const response = await fetch("https://vr-back-efus.vercel.app/api/reservations");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
