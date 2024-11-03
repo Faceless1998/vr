@@ -1,0 +1,3 @@
+https://vr-back-efus.vercel.app
+
+http://localhost:5000

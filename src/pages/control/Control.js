@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
+import Modal from "./Modal"; // Adjust the path if needed
 import styles from "./Control.module.css";
 
 export const Control = () => {
   const [reservations, setReservations] = useState([]);
+  const [selectedReservation, setSelectedReservation] = useState(null);
 
+  // Fetch reservations
   useEffect(() => {
     const fetchReservations = async () => {
       try {
         const response = await fetch("https://vr-back-efus.vercel.app/api/reservations");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        if (!response.ok) throw new Error("Failed to fetch reservations");
         const data = await response.json();
-        console.log("Fetched reservations:", data);
         setReservations(data);
       } catch (error) {
         console.error("Error fetching reservations:", error);
@@ -25,40 +25,39 @@ export const Control = () => {
   }, []);
 
   const calculatePrice = (duration) => {
-    if (duration === 30) return 10;
-    if (duration === 60) return 15;
-    if (duration === 90) return 30;
-    return 0; // Fallback price
+    switch (duration) {
+      case 30: return 10;
+      case 60: return 15;
+      case 90: return 30;
+      default: return 0;
+    }
   };
+
+  const now = new Date();
+  const futureReservations = reservations.filter((reservation) => {
+    const reservationDate = new Date(`${reservation.bookingDate}T${reservation.bookingHour}`);
+    return (
+      reservationDate > now &&
+      reservation.status !== "Cancelled" &&
+      reservation.status !== "Completed"
+    );
+  });
+
+  const sortedReservations = futureReservations.sort((a, b) => {
+    const dateA = new Date(`${a.bookingDate}T${a.bookingHour}`);
+    const dateB = new Date(`${b.bookingDate}T${b.bookingHour}`);
+    return dateA - dateB;
+  });
 
   const updateStatus = async (id, status) => {
     try {
-      const reservationToUpdate = reservations.find(
-        (reservation) => reservation._id === id
-      );
-
-      if (!reservationToUpdate) return;
-
-      let price;
-      if (status === "Completed") {
-        price = calculatePrice(reservationToUpdate.duration); // Calculate price for completed reservations
-      } else {
-        price = 0; // Set price to 0 if cancelled
-      }
-
-      console.log(`Updating reservation ID: ${id} | Status: ${status} | Price: ${price}`);
-
-      const response = await fetch(
-        `https://vr-back-efus.vercel.app/api/reservations/${id}/status`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status, price }), // Include the price in the request body
-        }
-      );
+      const response = await fetch(`https://vr-back-efus.vercel.app/api/reservations/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status, price: calculatePrice(status === "Completed" ? 60 : 0) }), // Adjust according to your needs
+      });
 
       if (!response.ok) throw new Error("Failed to update status");
-
       const updatedReservation = await response.json();
 
       setReservations((prevReservations) =>
@@ -71,34 +70,15 @@ export const Control = () => {
     }
   };
 
-  const handleReviewChange = (id, review) => {
-    setReservations((prevReservations) =>
-      prevReservations.map((reservation) =>
-        reservation._id === id ? { ...reservation, review } : reservation
-      )
-    );
-  };
-
-  const updateReview = async (id) => {
-    const reservationToUpdate = reservations.find(
-      (reservation) => reservation._id === id
-    );
-    if (!reservationToUpdate) return;
-
+  const updateReview = async (id, review) => {
     try {
-      const response = await fetch(
-        `https://vr-back-efus.vercel.app/api/reservations/${id}/review`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ review: reservationToUpdate.review }), // Ensure the review field is correct
-        }
-      );
+      const response = await fetch(`https://vr-back-efus.vercel.app/api/reservations/${id}/review`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ review }),
+      });
 
-      if (!response.ok) {
-        throw new Error("Failed to update review");
-      }
-
+      if (!response.ok) throw new Error("Failed to update review");
       const updatedReservation = await response.json();
 
       setReservations((prevReservations) =>
@@ -111,110 +91,53 @@ export const Control = () => {
     }
   };
 
-  // Get the current date and time
-  const now = new Date();
-
-  // Filter to get only future reservations that are not Cancelled or Completed
-  const futureReservations = reservations.filter((reservation) => {
-    const reservationDate = new Date(`${reservation.bookingDate}T${reservation.bookingHour}`);
-    return reservationDate > now && reservation.status !== "Cancelled" && reservation.status !== "Completed";
-  });
-
-  const sortedReservations = futureReservations.sort((a, b) => {
-    const dateA = new Date(`${a.bookingDate}T${a.bookingHour}`);
-    const dateB = new Date(`${b.bookingDate}T${b.bookingHour}`);
-    return dateA - dateB;
-  });
-
   return (
     <div className={styles.control}>
       <h2>Upcoming Reservations</h2>
       {sortedReservations.length === 0 ? (
-        <p>No upcoming reservations.</p> // Display a message if there are no future reservations
+        <p>No upcoming reservations.</p>
       ) : (
-        <ul>
-          {sortedReservations.map((reservation) => (
-            <li key={reservation._id}>
-              <span>
-                {reservation.name} {reservation.surname}
-              </span>
-              <p className={styles.reservationInfo}>
-                Parent - {reservation.adultName} | {reservation.AdultAge} <br />
-                Kid - {reservation.KidName} | {reservation.KidAge}
-                <br />
-                📞 {reservation.phone} <br />
-                📅 {reservation.bookingDate} at {reservation.bookingHour} <br />⏳
-                Duration: {reservation.duration} Minutes <br />
-                💵 Price: {calculatePrice(reservation.duration)} ₾ <br /> {/* Display the price */}
-              </p>
+        <table className={styles.reservationTable}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Parent</th>
+              <th>Kid</th>
+              <th>Phone</th>
+              <th>Date & Time</th>
+              <th>Duration</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedReservations.map((reservation) => (
+              <tr key={reservation._id}>
+                <td>{reservation.name} {reservation.surname}</td>
+                <td>{reservation.adultName}</td>
+                <td>{reservation.KidName}</td>
+                <td>{reservation.phone}</td>
+                <td>{`${reservation.bookingDate} at ${reservation.bookingHour}`}</td>
+                <td>{reservation.duration} Minutes</td>
+                <td>{calculatePrice(reservation.duration)}</td>
+                <td>
+                  <button onClick={() => setSelectedReservation(reservation)}>✏️</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
-              {reservation.games && reservation.games.length > 0 ? (
-                <div className={styles.gameList}>
-                  <h4>Games:</h4>
-                  <ul>
-                    {reservation.games.map((game, index) => (
-                      <li key={index}>{game || "Unknown Game"}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <p>No games associated with this reservation.</p>
-              )}
-              <div className={styles.reviewContainer}>
-                {reservation.review ? (
-                  <p className={styles.reviewText}>
-                    <strong>Review:</strong> {reservation.review}
-                  </p>
-                ) : (
-                  <p>No review available.</p>
-                )}
-                <textarea
-                  className={styles.reviewInput}
-                  placeholder="Add a review description..."
-                  value={reservation.review || ""}
-                  onChange={(e) =>
-                    handleReviewChange(reservation._id, e.target.value)
-                  }
-                />
-                <button
-                  className={styles.updateButton}
-                  onClick={() => updateReview(reservation._id)} // Calls updateReview when clicked
-                >
-                  Update Review
-                </button>
-              </div>
-              {reservation.status === "Pending" ? (
-                <>
-                  <button
-                    className={styles.cancelButton}
-                    onClick={() => updateStatus(reservation._id, "Cancelled")}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className={styles.doneButton}
-                    onClick={() => updateStatus(reservation._id, "Completed")}
-                  >
-                    Done
-                  </button>
-                </>
-              ) : (
-                <p
-                  className={
-                    reservation.status === "Cancelled"
-                      ? styles.cancelledText
-                      : styles.completedText
-                  }
-                >
-                  {reservation.status}
-                </p>
-              )}
-            </li>
-          ))}
-        </ul>
+      {selectedReservation && (
+        <Modal
+          setReservations={setReservations}
+          reservation={selectedReservation}
+          onClose={() => setSelectedReservation(null)}
+          updateStatus={updateStatus}
+          updateReview={updateReview}
+        />
       )}
     </div>
-  );  
+  );
 };
-
-export default Control;

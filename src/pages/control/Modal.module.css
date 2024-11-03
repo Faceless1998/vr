@@ -1,0 +1,82 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .reviewContainer {
+    margin-top: 20px;
+  }
+  
+  .reviewInput {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .reviewInput:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .cancelButton {
+    background-color: #dc3545; /* Red */
+  }
+  
+  .doneButton {
+    background-color: #28a745; /* Green */
+  }
+  
+  .cancelButton:hover,
+  .doneButton:hover {
+    opacity: 0.8;
+  }
+  
+  button {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .cancelledText {
+    color: #dc3545; /* Red */
+  }
+  
+  .completedText {
+    color: #28a745; /* Green */
+  }
+  
