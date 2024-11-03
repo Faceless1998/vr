@@ -25,7 +25,7 @@ function App() {
         className="backButton"
         onClick={() => navigate(-1)} // Navigate back to the previous page
       >
-        <i class="fa-solid fa-arrow-left"></i>
+        <i className="fa-solid fa-arrow-left"></i>
       </button>
     </>
   );
